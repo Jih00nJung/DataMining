@@ -66,3 +66,6 @@ usedcars$price <- gsub(",", "", usedcars$price)
 usedcars$price <- as.numeric(usedcars$price)
 
 View(usedcars)
+
+setwd("C:/WORK_R")          # 디렉토리 설정
+write.csv(usedcars, "usedcars_new.csv")     # CSV 파일로 저장하기
