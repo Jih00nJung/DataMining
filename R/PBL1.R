@@ -1,10 +1,13 @@
 # 인구통계학적 데이터를 이용해서 어떤 모집군에 쿠폰을 나눠줄 것인가
 
-setwd("C:/WORK_R/datamining_PBL1")
+setwd("C:/WORK_R/pre_data_정지훈_91910773")
+# install.packages('lubridate')
+# install.packages('zoo')
 
 library("prettyR")
 library(descr)
-
+library(lubridate)
+library(zoo)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 데이터 불러오기
@@ -252,3 +255,4 @@ legend("topright", legend = c("Order Counts", "Average Distance"), col = c("blue
 # # 데이터프레임 저장
 # write.csv(per_delivery, "per_delivery.csv", row.names = TRUE)
 # write.csv(region, "region.csv", row.names = TRUE)
+
