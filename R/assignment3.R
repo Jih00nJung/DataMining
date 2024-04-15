@@ -53,9 +53,7 @@ View(data_living)
 
 
 
-
 # 10번 문제
-
 library(XML)
 
 # API 호출을 위한 기본 정보
@@ -78,9 +76,3 @@ answer5 <- subset(Gangnam, select = c('법정동', '아파트', '거래금액'))
 
 View(Gangnam)
 View(answer5)
-
-
-
-
-
-
