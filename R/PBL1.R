@@ -1,6 +1,6 @@
 # 인구통계학적 데이터를 이용해서 어떤 모집군에 쿠폰을 나눠줄 것인가
 
-setwd("C:/WORK_R/pre_data_정지훈_91910773")
+setwd("C:/Users/ghdah/문서/과제/데이터마이닝/데이터마이닝 PBL1/pre_data_정지훈_91910773/bigdata")
 # install.packages('lubridate')
 # install.packages('zoo')
 
