@@ -1,0 +1,5 @@
+install.packages("party")
+library(party)
+setwd("C:/WORK_R")
+options("width" = 500)
+data <- read.csv("Concrete_Data.csv", header = T, fileEncoding = "EUC-KR")
