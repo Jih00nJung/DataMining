@@ -16,13 +16,18 @@ setwd("C:/WORK_R/Dataset_Electro_cleaning")
 file_list <- list.files(pattern = "*.csv")
 
 # CSV 파일을 읽어와 리스트로 저장
-csv_list <- lapply(file_list, read.csv, header = TRUE, sep = ",", na.strings = "NA", stringsAsFactors = TRUE)
+csv_list <- lapply(file_list, read.csv, header = TRUE, sep = ",")
+
+cat("csv_list", "\n")
+head(csv_list)
 
 # 리스트의 모든 데이터 프레임을 하나로 결합
 combined_data <- bind_rows(csv_list)
 
 # 결합된 데이터 확인
-# combined_data
+head(combined_data)
+
+combined_data$Time <- as.numeric(as.factor(combined_data$Time))
 
 # 데이터 크기 확인
 cat("Number of rows in combined data:", nrow(combined_data), "\n")
@@ -41,7 +46,7 @@ if (sample_size < num_rows) {
   test <- combined_data[-idxs,]
 
   # Naive Bayes 모델 생성
-  model <- naiveBayes(Time ~ ., data = train)
+  model <- naiveBayes(Lot ~ pH + Temp + Current, data = train, na.action = na.omit)
   cat("Naive Bayes model created.\n")
 
   # 테스트 데이터에 대한 예측 수행
@@ -50,40 +55,31 @@ if (sample_size < num_rows) {
   cat("Predictions completed.\n")
 
   # 예측 결과 확인
+  cat("New Data Frame Head:\n")
+  print(head(new))
+
+  # 예측 결과의 테이블 생성
   predict_table <- table(new$예측값, new$실제값)
   names(dimnames(predict_table)) <- c("predicted", "observed")
 
   # 예측 테이블 출력
-  predict_table
+  cat("Predict Table:\n")
+  print(predict_table)
 
   # 정확도 계산
   accuracy <- sum(new$예측값 == new$실제값) / nrow(test)
   cat("Accuracy:", accuracy, "\n")
+
+  # 예측값과 실제값을 포함한 데이터프레임 생성
+  plot_data <- data.frame(실제값 = new$실제값, 예측값 = new$예측값)
+
+  ggplot(plot_data, aes(x = 실제값, y = 예측값)) +
+    geom_point(color = "blue") +
+    geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+    labs(x = "Actual Value", y = "Predicted Value", title = "Actual vs. Predicted Values") +
+    theme_minimal()
 } else {
   cat("Sample size is greater than the number of rows in the data. Please check your data or adjust the sampling ratio.\n")
 }
 
-# 예측값과 실제값을 포함한 데이터프레임 생성
-plot_data <- data.frame(실제값 = new$실제값, 예측값 = new$예측값)
-
-ggplot(plot_data, aes(x = 실제값, y = 예측값)) +
-  geom_point(color = "blue") +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
-  labs(x = "Actual Value", y = "Predicted Value", title = "Actual vs. Predicted Values") +
-  theme_minimal()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+warnings()
