@@ -1,4 +1,4 @@
-# Welding
+# Welding tree
 
 # install.packages("tree", repos = "https://cran.r-project.org/")
 
@@ -20,4 +20,4 @@ cat("model \n")
 model <- tree(FIN_JGMT ~ DV_R + DA_R + AV_R + AA_R + PM_R, data = train)
 
 plot(model)
-text(model, pretty = 2, all = TRUE)
+text(model, pretty = 5, all = TRUE)

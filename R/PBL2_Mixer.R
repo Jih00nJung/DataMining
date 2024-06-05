@@ -1,14 +1,8 @@
 # Mixer
 
-# install.packages('abind')
-# install.packages('zoo')
-# install.packages('xts')
-# install.packages('quantmod')
-# install.packages('ROCR')
-
-# install.packages("remotes")
+# install.packages("scales")
 # remotes::install_github("cran/DMwR")
-install.packages("scales")
+# install.packages("ggplot2")
 
 library(scales)
 library(DMwR)
@@ -19,6 +13,7 @@ setwd("C:/WORK_R/Dataset_Mixer")
 mixer <- read.csv("mixing_actuator.csv", header = TRUE, sep = ",", na.strings = "NA", stringsAsFactors = TRUE)
 
 mixer$Quality <- as.factor(mixer$Quality)
+
 mixer <- mixer[-2]
 
 head(mixer)
@@ -27,7 +22,7 @@ idxs <- sample(1:nrow(mixer), as.integer(0.7 * nrow(mixer)))
 train <- mixer[idxs, ]
 test <- mixer[-idxs, ]
 
-k <- 2
+k <- 3
 
 result <- kNN(Quality ~ Sensor, train, test, norm = FALSE, k)
 
@@ -44,7 +39,8 @@ predict_prob <- sum(new$result == "Y") / length(new$result)
 
 cat("일치하는 비율: ", predict_prob, "\n")
 
-ggplot(new, aes(x = 예측값, fill = result)) +
-  geom_bar() +
-  labs(title = "kNN 예측 결과", x = "예측값", y = "빈도") +
-  scale_fill_manual(values = c("Y" = "green", "N" = "red"))
+ggplot(data = result, mapping = aes(x = X,
+                                   y = Sensor)) + geom_point(colour = c("purple", "green")[mixer$Quality],
+                                                             pch = c(0, 2)[mixer$Quality])
+
+
